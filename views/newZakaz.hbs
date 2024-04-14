@@ -1,0 +1,61 @@
+
+<div class="container" style="max-width: 1000px; margin: auto; padding: 20px; margin-top: 50px;">
+
+  <form id="myForm" action="/submit-order" method="POST">
+
+    <div class="input-group mb-3">
+
+      <input type="text" name="ProductName" class="form-control" placeholder="Название товара" aria-label="Username" aria-describedby="basic-addon1">
+    </div>
+    
+   
+    <div class="form-outline" data-mdb-input-init>
+      <input type="url" name="url" id="typeURL" placeholder="URL input" class="form-control" />
+      <label class="form-label" for="typeURL"></label>
+    </div>
+    
+      <div class="input-group mb-3">
+        <span class="text">Дата начала</span>
+        <input type="date" name="startDate" class="form-control" aria-label="Дата начала">
+      </div>
+      
+      <div class="input-group mb-3">
+        <span class="text">Дата окончания</span>
+        <input type="date" name="endDate" class="form-control" aria-label="Дата окончания">
+      </div>
+    
+    <div class="input-group mb-3">
+      <input type="text" name="author" class="form-control" placeholder="Автор" aria-label="Username" aria-describedby="basic-addon1">
+    </div>
+    
+    <div style="text-align: center;">
+      <button class="btn btn-primary" type="submit" style="background-color: rgb(0, 0, 0); color: white;">Сделать заказ</button>
+    </div>
+  </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+// jQuery для вывода уведомлений
+$(document).ready(function() {
+    $('#myForm').submit(function(event) {
+        event.preventDefault();
+        var formData = $(this).serialize();
+        $.ajax({
+            type: 'POST',
+            url: '/submit-order',
+            data: formData,
+            success: function(response) {
+                alert(response.message);
+                // здесь можно выполнить другие действия, например, обновить страницу или скрыть форму
+            },
+            error: function(xhr, status, error) {
+                alert('Ошибка: ' + xhr.responseText);
+            }
+        });
+    });
+});
+</script>
+
+

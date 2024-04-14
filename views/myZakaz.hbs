@@ -1,0 +1,24 @@
+<div style="max-width: 600px; margin: auto; border: 1px solid #ccc; padding: 20px; margin-top: 50px; border-radius: 10px; font-family: Arial;">
+  <h2 style="text-align: center;">Мои заказы</h2>
+
+  <ul id="orderList" style="list-style-type: none;">
+    {{#if orders.length}}
+      {{#each orders}}
+     
+        <li style="margin-bottom: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 10px;">
+          <p class="lead" style="border-bottom: 1px solid #ccc; padding: 10px;"><strong>Номер заказа:</strong> {{this.OrderID}}</p>
+          <p class="lead" style="border-bottom: 1px solid #ccc; padding: 10px;"><strong>Товар:</strong> {{this.ProductName}}</p>
+          <p class="lead" style="border-bottom: 1px solid #ccc; padding: 10px;"><strong>Количество:</strong> {{this.Quantity}}</p>
+          <p class="lead" style="border-bottom: 1px solid #ccc; padding: 10px;"><strong>URL:</strong> <a href="{{this.URL}}">{{this.URL}}</a></p>
+          <p class="lead" style="border-bottom: 1px solid #ccc; padding: 10px;"><strong>Сроки:</strong> с {{dateFormat this.StartDate 'DD MM'}} по {{dateFormat this.EndDate 'DD MM'}}</p>
+          <p class="lead" style="border-bottom: 1px solid #ccc; padding: 10px;"><strong>Автор:</strong> {{this.Author}}</p>
+          <p class="lead" style="border-bottom: 1px solid #ccc; padding: 10px;"><strong>Статус:</strong> {{this.Status}}</p>
+        </li>
+        
+
+      {{/each}}
+    {{else}}
+      <h3 style="text-align: center;">У вас пока нет активных заказов</h3>
+    {{/if}}
+  </ul>
+</div>

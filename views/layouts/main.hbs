@@ -1,0 +1,37 @@
+{{!-- {{> head}}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+<body>
+
+    {{> navbar}}
+  <div class="container">
+{{!-- {{> toast}} --}}
+
+
+    {{!-- {{{ body }}}
+  </div>  
+</body>}
+</html> --}} 
+
+{{> head}}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<body>
+
+  {{#if user}}
+    {{#if user.admin}}
+      {{> navbarAdmin}}
+    {{else}}
+      {{> navbarUser}}
+    {{/if}}
+  {{else}}
+    {{> navbar}}
+  {{/if}}
+
+  <div class="container">
+    {{{ body }}}
+  </div>  
+</body>
+</html>

@@ -1,0 +1,63 @@
+ {{!-- {{#if user}} --}}
+{{!-- <header class="navbar navbar-dark bg-dark">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <div><a class="nav-link px-2 text-secondary">ZAKAZ2</div> --}}
+          {{!-- {{#if user}}  --}}
+             {{!-- {{#unless user}} --}}
+              {{!-- <li><a href="/myZakaz" class="nav-link px-2 text-white">Мои заказы</a></li>
+
+              <li><a href="/new-zakaz" class="nav-link px-2 text-white">Добавить заказ</a></li> --}}
+
+               {{!-- <span class="btn btn-outline-light me-2">{{user.username}}</span> --}}
+          
+          
+          {{!-- {{/if}} --}}
+           {{!-- {{/unless}}  --}}
+            {{!-- {{#if user.admin}}
+              <li><a href="/adminOrders" class="nav-link px-2 text-white">Заказы</a></li>
+              <a href="/index-admin" class="btn btn-outline-light me-2">Админ панель</a>
+
+           
+      {{/if}}  --}}
+
+
+{{!-- 
+        </ul>
+        <div class="text-end"> --}}
+          {{!-- {{#if user}}
+            <span class="btn btn-outline-light me-2">{{user.username}}</span>
+            {{#if user.admin}}
+              <a href="/index-admin" class="btn btn-outline-light me-2">Админ панель</a>
+            {{/if}}
+            <a href="/logout" class="btn btn-outline-light me-2">Выйти</a> --}}
+          {{!-- {{else}} --}}
+           {{!-- <a href="/logout" class="btn btn-outline-light me-2">Выйти</a> --}}
+            {{!-- <a href="/auth" class="btn btn-outline-light me-2">Войти</a> --}}
+            {{!-- <a href="/reg" class="btn btn-outline-light me-2">Регистрация</a> --}}
+          {{!-- {{/if}}
+        </div>
+      </div>
+    </div>
+  </header> --}}
+    {{!-- {{/if}} --}}
+
+
+    <header class="navbar navbar-dark bg-dark">
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="#" class="nav-link px-2 text-secondary">ZAKAZ2</a></li>
+            <li><a href="/myzakaz" class="nav-link px-2 text-white">Мои заказы</a></li>
+            <li><a href="/newzakaz" class="nav-link px-2 text-white">Добавить заказ</a></li>
+            </ul>
+  </div>    
+      <div class="text-end ms-auto">
+        <span class="btn btn-outline-light me-2">{{user.username}}</span>
+        <a href="/logout" class="btn btn-outline-light me-2">Выйти</a>
+      </div>
+    </div>
+  
+</header>
+
