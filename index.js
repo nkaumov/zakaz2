@@ -120,20 +120,21 @@ app.get('/newzakaz', (req, res) => {
 });
 
 
-app.get('/myzakaz', async (req, res) => {
-  try {
-    // Получение заказов пользователя из базы данных
-    const orders = await Order.find({ user: req.session.user._id });
+app.get('/myzakaz', (req, res) => {
+  const userId = req.session.user.id; // Получение идентификатора текущего пользователя
 
-    // Передача данных в шаблон
-    res.render('myzakaz.hbs', { 
-      user: req.session.user,
-      orders: orders
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
+  const query = 'SELECT * FROM orders WHERE user_id = ?';
+  db.query(query, [userId], (error, results) => {
+    if (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.render('myzakaz.hbs', { 
+        user: req.session.user,
+        orders: results
+      });
+    }
+  });
 });
 
 app.post('/submit-order', async (req, res) => {
