@@ -3,13 +3,19 @@
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
         <div><a class="nav-link px-2 text-secondary">ZAKAZ2</div>
-        <li><a href="/adminOrders" class="nav-link px-2 text-white">Заказы</a></li>
+        <li></li>
       </ul>
       <div class="text-end">
-        <span class="btn btn-outline-light me-2">{{user.username}}</span>
+        
+        <a href="/adminOrders" class="btn btn-outline-light me-2">Заказы</a>
         <a href="/index-admin" class="btn btn-outline-light me-2">Админ панель</a>
-        <a href="/logout" class="btn btn-outline-light me-2">Выйти</a>
+        
       </div>
+      <div class="text-end ms-auto">
+        <a href="/logout" class="btn btn-outline-light me-2">Выйти</a>
+        <span class=" btn btn-outline-light me-2 " >{{user.username}}</span>
+      </div>
+      
     </div>
   </div>
 </header>

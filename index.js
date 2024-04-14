@@ -175,7 +175,7 @@ app.get('/myZakaz', async (req, res) => {
 
     res.render('myZakaz.hbs', { title: 'orders', user: req.session.user, orders });
   } else {
-    res.redirect('/auth');
+    res.redirect('/');
   }
 });
 
