@@ -120,12 +120,20 @@ app.get('/newzakaz', (req, res) => {
 });
 
 
-app.get('/myzakaz', (req, res) => {
-  // Здесь можно добавить логику для отображения страницы "Мои заказы"
-  // Вывод HTML страницы "Мои заказы" или рендеринг шаблона myzakaz.hbs
-  res.render('myzakaz.hbs', {
-    user: req.session.user
-  });
+app.get('/myzakaz', async (req, res) => {
+  try {
+    // Получение заказов пользователя из базы данных
+    const orders = await Order.find({ user: req.session.user._id });
+
+    // Передача данных в шаблон
+    res.render('myzakaz.hbs', { 
+      user: req.session.user,
+      orders: orders
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 app.post('/submit-order', async (req, res) => {
