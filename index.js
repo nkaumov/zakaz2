@@ -120,21 +120,21 @@ app.get('/newzakaz', (req, res) => {
 });
 
 
-app.get('/myzakaz', (req, res) => {
-  const userId = req.session.user.id; // Получение идентификатора текущего пользователя
+app.get('/myzakaz', async (req, res) => {
+  try {
+    const userId = req.session.user.id; // Получение идентификатора текущего пользователя
 
-  const query = 'SELECT * FROM orders WHERE user_id = ?';
-  db.query(query, [userId], (error, results) => {
-    if (error) {
-      console.error(error);
-      res.status(500).send('Internal Server Error');
-    } else {
-      res.render('myzakaz.hbs', { 
-        user: req.session.user,
-        orders: results
-      });
-    }
-  });
+    const query = 'SELECT * FROM orders WHERE user_id = ?';
+    const [rows] = await pool.query(query, [userId]);
+
+    res.render('myzakaz.hbs', { 
+      user: req.session.user,
+      orders: rows
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 app.post('/submit-order', async (req, res) => {
