@@ -4,6 +4,7 @@ import exphbs from 'express-handlebars';
 import Handlebars from 'handlebars';
 import moment from 'moment';
 import mysql from 'mysql2';
+import serveStatic from 'serve-static';
 
 let sets = {
   host: 'localhost',
@@ -43,6 +44,7 @@ app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 app.set('views', 'views');
 app.use(express.urlencoded({ extended: true }));
+app.use('/static', serveStatic(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
   res.render('auth', {
