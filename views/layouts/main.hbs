@@ -32,6 +32,17 @@
 
   <div class="container">
     {{{ body }}}
-  </div>  
+  </div> 
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems, options);
+  });
+
+  // Or with jQuery
+
+ 
+</script> 
 </body>
 </html>

@@ -1,0 +1,52 @@
+
+    <h1>Список заказов</h1>
+    <table>
+        <thead >
+            <tr>
+                <th>Название товара</th>
+                <th>URL</th>
+                <th>Дата начала</th>
+            
+                <th>Автор</th>
+                <th>Статус</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            
+            {{#each orders}}
+<tr style="margin-bottom: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 10px;">
+    <td>{{this.ProductName}}</td>
+    <td><a href="{{this.URL}}" target="_blank">{{this.URL}}</a></td>
+    <td>{{dateFormat this.StartDate}}</td>
+    {{!-- <td>{{dateFormat this.EndDate}}</td> --}}
+    <td>{{this.Author}}</td>
+    <td>
+        <form method="POST" action="/update-status">
+            <div class="input-field col">
+                <select name="status">
+                    <option value=" " disabled selected>{{this.Status}}</option>
+                    <option value="На рассмотрении">На рассмотрении</option>
+                    <option value="ОДОБРЕН">Одобрен</option>
+                </select>
+               
+            </div>
+            <input type="hidden" name="orderId" value="{{this.OrderID}}" />
+            <input type="submit" value="Обновление статуса" />
+        </form>
+    </td>
+    
+</tr>
+{{/each}}
+        </tbody>
+    </table>
+
+    
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems, {});
+});
+</script>
+

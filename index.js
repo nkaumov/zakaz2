@@ -2,6 +2,8 @@
 import express from 'express';
 import session from 'express-session'
 import exphbs  from 'express-handlebars';
+import Handlebars from 'handlebars';
+import moment from 'moment';
 import mysql from 'mysql2';
 
 
@@ -87,7 +89,7 @@ app.post('/myzakaz', async (req, res) => {
       if (password === user.password) {
         req.session.userId = user.id; // сохраняем userId в сессии
         req.session.user = user; // сохраняем всего пользователя в сессии
-        res.render('myZakaz.hbs', { user: user});
+        res.render('newZakaz.hbs', { user: user});
       } else {       
   
         res.send('Неверный пароль');
@@ -124,7 +126,7 @@ app.get('/myzakaz', async (req, res) => {
   try {
     const userId = req.session.user.id; // Получение идентификатора текущего пользователя
 
-    const query = 'SELECT * FROM orders WHERE user_id = ?';
+    const query = 'SELECT * FROM orders WHERE UserID = ?';
     const [rows] = await pool.query(query, [userId]);
 
     res.render('myzakaz.hbs', { 
@@ -136,6 +138,17 @@ app.get('/myzakaz', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
+Handlebars.registerHelper('dateFormat', function(value) {
+  return moment(value).format('DD/MM/YYYY ');
+});
+
+Handlebars.registerHelper('eq', function(a, b) {
+  return a === b;
+});
+
+
+
 
 app.post('/submit-order', async (req, res) => {
   const order = req.body;
@@ -161,14 +174,13 @@ if (userId) {
 
 });
 
-app.get('/myZakaz', async (req, res) => {
-  if(req.session.user) {
-    const userId = req.session.user.id;
+
+
+
+app.get('/adminzakaz', async (req, res) => {
+  if(req.session.user && req.session.user.admin) {
+    const [rows] = await pool.execute('SELECT * FROM Orders');
   
-    const [rows] = await pool.execute('SELECT * FROM orders WHERE UserID = ?',
-      [userId]
-    );
- 
     const orders = rows.map(row => {
       return {
         OrderID: row.OrderID,
@@ -179,14 +191,77 @@ app.get('/myZakaz', async (req, res) => {
         EndDate: row.EndDate,
         Author: row.Author,
         Status: row.Status
+        
       };
-    }); 
-
-    res.render('myZakaz.hbs', { title: 'orders', user: req.session.user, orders });
+    });
+  
+    res.render('adminZakaz', { title: 'Admin Orders', user: req.session.user, orders });
   } else {
-    res.redirect('/auth');
+    res.redirect('/');
   }
 });
+
+
+
+app.post('/update-status', async (req, res) => {
+  if(req.session.user && req.session.user.admin) {
+      const status = req.body.status;
+      const orderId = req.body.orderId;
+
+      // Обновите статус в базе данных
+      // Здесь вы бы использовали свое соединение с базой данных
+      await pool.execute('UPDATE Orders SET Status = ? WHERE OrderID = ?', [status, orderId]);
+
+      res.redirect('/adminzakaz');
+  } else {
+      res.redirect('/');
+  }
+});
+
+// const Order = require('');
+// app.post('/update-order-status', (req, res) => {
+//   const { OrderId, Status } = req.body;
+
+//   // Здесь производится обновление статуса заказа в базе данных
+//   // Пример кода для обновления статуса в MongoDB:
+//   Order.findByIdAndUpdate(orderId, { status: Status }, (err, doc) => {
+//       if (err) {
+//           console.error('Ошибка при обновлении статуса заказа:', err);
+//           res.status(500).send('Ошибка при обновлении статуса заказа');
+//       } else {
+//           console.log('Статус заказа успешно обновлен');
+//           res.sendStatus(200);
+//       }
+//   });
+// });
+
+
+// app.get('/myZakaz', async (req, res) => {
+//   if(req.session.user) {
+//     const UserID = req.session.user.id;
+  
+//     const [rows] = await pool.execute('SELECT * FROM orders WHERE UserID = ?',
+//       [UserID]
+//     );
+ 
+//     const orders = rows.map(row => {
+//       return {
+//         OrderID: row.OrderID,
+//         ProductName: row.ProductName,
+//         Quantity: row.Quantity,
+//         URL: row.URL,
+//         StartDate: row.StartDate,
+//         EndDate: row.EndDate,
+//         Author: row.Author,
+//         Status: row.Status
+//       };
+//     }); 
+
+//     res.render('myZakaz.hbs', { title: 'orders', user: req.session.user, orders });
+//   } else {
+//     res.redirect('/auth');
+//   }
+// });
 
 
 
