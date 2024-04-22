@@ -4,9 +4,16 @@ import exphbs from 'express-handlebars';
 import Handlebars from 'handlebars';
 import moment from 'moment';
 import mysql from 'mysql2';
+import path, { dirname } from 'path';
 import serveStatic from 'serve-static';
-import path from 'path';
 
+
+
+
+
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 
 let sets = {
