@@ -1,22 +1,4 @@
-{{!-- {{> head}}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
-
-<body>
-
-    {{> navbar}}
-  <div class="container">
-{{!-- {{> toast}} --}}
-
-
-    {{!-- {{{ body }}}
-  </div>  
-</body>}
-</html> --}} 
-
 {{> head}}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <body>
 
@@ -35,14 +17,15 @@
   </div> 
   
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('select');
-    var instances = M.FormSelect.init(elems, options);
-  });
+      document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('select');
+      var instances = M.FormSelect.init(elems, options);
+    });
+  </script> 
 
-  // Or with jQuery
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
- 
-</script> 
+  <script src="/toastr/toastr.min.js"></script>
+
 </body>
 </html>
