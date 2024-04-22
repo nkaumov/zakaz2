@@ -1,66 +1,91 @@
-<section class="h-100 gradient-form" style="background-color: #ffffff;">
-  {{!-- <div class="container py-5 h-100"> --}}
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-xl-10">
-        <div class="rounded-3 text-black">
-          <div class="row g-0">
-            <div class="col-lg-6">
-              <div class="card-body p-md-5 mx-md-4">
+<section class='h-100 gradient-form' style='background-color: #ffffff;'>
+  <div class='row d-flex justify-content-center align-items-center h-100'>
+    <div class='col-xl-10'>
+      <div class='rounded-3 text-black'>
+        <div class='row g-0'>
+          <div class='col-lg-6'>
+            <div class='card-body p-md-5 mx-md-4'>
 
-             
-                <form action="/submit-order" method="post">
+              <form action='/submit-order' method='post'>
 
-                      
+                <label class='form-label' for='form2Example11'>Название товара</label>
+                <input
+                  type='text'
+                  name='ProductName'
+                  class='form-control'
+                  placeholder='Название товара'
+                />
 
-                     <label class="form-label" for="form2Example11">Название товара</label>
-                      <input type="text" name="ProductName" class="form-control" placeholder="Название товара">                      
+                <label class='form-label' for='form2Example22'>URL</label>
+                <input
+                  type='url'
+                  name='url'
+                  id='typeURL'
+                  placeholder='URL input'
+                  class='form-control'
+                />
 
+                <label class='form-label' for='form2Example22'>Дата начала</label>
+                <input type='date' name='startDate' class='form-control' aria-label='Дата начала' />
 
-                      <label class="form-label" for="form2Example22">URL</label>
-                      <input type="url" name="url" id="typeURL" placeholder="URL input" class="form-control">
+                <label class='form-label' for='form2Example22'>дата завершения </label>
+                <input
+                  type='date'
+                  name='endDate'
+                  class='form-control'
+                  aria-label='Дата окончания'
+                />
 
+                <label class='form-label' for='form2Example22'>Автор</label>
+                <input type='text' name='author' class='form-control' placeholder='Автор' />
 
-                      
-                   
-                      <label class="form-label" for="form2Example22">Дата начала</label>
-                      <input type="date" name="startDate" class="form-control" aria-label="Дата начала">
-                      
-                   
-                      <label class="form-label" for="form2Example22">дата завершения </label>
-                      <input type="date" name="endDate" class="form-control" aria-label="Дата окончания">
+                <label class='form-label' for='form2Example22'>photo_link</label>
+                <input
+                  type='url'
+                  name='photo_link'
+                  id='typeURL'
+                  placeholder='URL input'
+                  class='form-control'
+                />
 
+                <div class='text-center pt-1 mb-5 pb-1'>
+                  <button
+                    class='btn btn-primary btn-block fa-lg gradient-custom-2 mb-3'
+                    type='submit'
+                  >Сделать заказ</button>
 
-                      <label class="form-label" for="form2Example22">Автор</label>
-                      <input type="text" name="author" class="form-control" placeholder="Автор">
-
-                      <label class="form-label" for="form2Example22">photo_link</label>
-                      <input type="url" name="photo_link" id="typeURL" placeholder="URL input" class="form-control">
-
-
-                  <div class="text-center pt-1 mb-5 pb-1">
-                   <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit">Сделать заказ</button>
-                  
-                  </div>
-                  </form>
-                
-              </div>
-            </div>
-             <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
-              <div class="text-black px-3 py-4 p-md-5 mx-md-4">
-                   <div class="text-center">
-                  <img src="https://prosto.education/wp-content/uploads/2023/04/24.png"
-                    style="width: 185px;" alt="logo">
-                  <h4 class="mt-1 mb-5 pb-1">Х</h4>
                 </div>
+              </form>
 
-                <h4 class="mb-4">"Этот сайт был сделан кровью и потом"</h4>
-                <p class="small mb-0">Дорогой пользователь, Пожалуйста, не ругайся если найдешь какие либо некрасивые или неправильные моменты мне уже тяжело смотреть на это все но это неважно просто знай что я очень старался правда!!!! </p>
-              </div>
             </div>
           </div>
+          <div class='col-lg-6 d-flex align-items-center gradient-custom-2'>
+            <div class='text-black px-3 py-4 p-md-5 mx-md-4'>
+              <div class='text-center'>
+                <img
+                  src='https://prosto.education/wp-content/uploads/2023/04/24.png'
+                  style='width: 185px;'
+                  alt='logo'
+                />
+                <h4 class='mt-1 mb-5 pb-1'>Х</h4>
+              </div>
+
+              <h4 class='mb-4'>"Этот сайт был сделан кровью и потом"</h4>
+              <p class='small mb-0'>Дорогой пользователь, Пожалуйста, не ругайся если найдешь какие
+                либо некрасивые или неправильные моменты мне уже тяжело смотреть на это все но это
+                неважно просто знай что я очень старался правда!!!!
+              </p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  {{!-- </div> --}}
+  </div>
+  {{! </div> }}
 </section>
+
+{{#if success}}
+  <script>
+    toastr.success('{{success}}');
+  </script>
+{{/if}}
