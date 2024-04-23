@@ -14,39 +14,52 @@
                   name='ProductName'
                   class='form-control'
                   placeholder='Название товара'
+                  required
+                />
+
+                <label class='form-label' for='form2Example22'>Количество</label>
+                <input
+                  type='text'
+                  name='Quantity'
+                  class='form-control'
+                  placeholder='Количество'
+                  required
                 />
 
                 <label class='form-label' for='form2Example22'>URL</label>
                 <input
                   type='url'
-                  name='url'
+                  name='URL'
                   id='typeURL'
                   placeholder='URL input'
                   class='form-control'
+                  required
                 />
 
-                <label class='form-label' for='form2Example22'>Дата начала</label>
-                <input type='date' name='startDate' class='form-control' aria-label='Дата начала' />
+                <label class='form-label' for='form2Example22'>Дата поставки</label>
+                <input type='date' name='StartDate' class='form-control' aria-label='Дата начала' required />
 
-                <label class='form-label' for='form2Example22'>дата завершения </label>
+                <label class='form-label' for='form2Example22'>Цена</label>
+                <input
+                  type='text'
+                  name='price'
+                  class='form-control'
+                  placeholder='Цена товара'
+                  required
+                />
+
+                {{!-- <label class='form-label' for='form2Example22'>дата завершения </label>
                 <input
                   type='date'
                   name='endDate'
                   class='form-control'
                   aria-label='Дата окончания'
-                />
+                /> --}}
 
                 <label class='form-label' for='form2Example22'>Автор</label>
-                <input type='text' name='author' class='form-control' placeholder='Автор' />
+                <input type='text' name='Author' class='form-control' placeholder='Автор' required />
 
-                <label class='form-label' for='form2Example22'>photo_link</label>
-                <input
-                  type='url'
-                  name='photo_link'
-                  id='typeURL'
-                  placeholder='URL input'
-                  class='form-control'
-                />
+                
 
                 <div class='text-center pt-1 mb-5 pb-1'>
                   <button

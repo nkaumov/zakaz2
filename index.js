@@ -1,41 +1,31 @@
-import express from 'express';
+import express from 'express'
 import session from 'express-session';
 import exphbs from 'express-handlebars';
+import pool from './vendor/db.js'
 import Handlebars from 'handlebars';
 import moment from 'moment';
-import mysql from 'mysql2';
 import path, { dirname } from 'path';
 import serveStatic from 'serve-static';
-
-
-
-
-
 import { fileURLToPath } from 'url';
+import {mlog,say} from './vendor/logs.js'
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+import {get_username,insert_user,get_zakaz,submit_order,get_all_orders,update_status} from './vendor/db.js'
 
-let sets = {
-  host: 'localhost',
-  user: 'root',
-  password: '1234',
-  database: 'deveve',
-  charset: 'utf8mb4_0900_ai_ci',
-};
-
-const pool = mysql.createPool(sets).promise();
+const app = express()
 
 export async function checkConnection() {
   try {
     const connection = await pool.getConnection();
-    console.log('Успешное подключение к БД');
+    mlog('Успешное подключение к БД');
     connection.release();
   } catch (err) {
     console.error('Ошибка подключения к БД:', err);
   }
 }
 
-const app = express();
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 const hbs = exphbs.create({
   defaultLayout: 'main',
   extname: 'hbs',
@@ -68,23 +58,19 @@ app.get('/reg', (req, res) => {
 app.post('/register', async (req, res) => {
   const { username, password } = req.body;
 
-  const [rows] = await pool.execute('SELECT * FROM users WHERE username = ?', [username]);
+  const [rows] = await get_username(username);
   if (rows.length > 0) {
     res.send('Пользователь с таким username уже существует');
   } else {
-    await pool.execute('INSERT INTO users (username, password, admin) VALUES (?, ?, ?)', [
-      username,
-      password,
-      0,
-    ]);
+    await insert_user(username,password,0,);
     res.redirect('/');
   }
 });
 
 app.post('/myzakaz', async (req, res) => {
   const { username, password } = req.body;
-  console.log(username, password);
-  const [rows] = await pool.execute('SELECT * FROM users WHERE username = ?', [username]);
+  mlog(username, password);
+  const rows = await get_username(username);
 
   if (rows.length > 0) {
     const user = rows[0];
@@ -127,8 +113,8 @@ app.get('/myzakaz', async (req, res) => {
   try {
     const userId = req.session.user.id; // Получение идентификатора текущего пользователя
 
-    const query = 'SELECT * FROM orders WHERE UserID = ?';
-    const [rows] = await pool.query(query, [userId]);
+    // const query = 'SELECT * FROM orders WHERE UserID = ?';
+    const rows = await get_zakaz(userId)
 
     res.render('myzakaz.hbs', {
       user: req.session.user,
@@ -155,29 +141,12 @@ app.post('/submit-order', async (req, res) => {
   const userId = req.session.userId;
 
   if (userId) {
-    await pool.execute(
-      'INSERT INTO Orders (ProductName, Quantity, URL, StartDate, EndDate, Author, Status, userId) VALUES (?, ?, ?, ?, ?, ?, "На рассмотрении", ?)',
-      [
-        order.ProductName,
-        order.quantity,
-        order.url,
-        order.startDate,
-        order.endDate,
-        order.author,
-        userId,
-      ].map((param) => {
-        if (typeof param === 'undefined') {
-          return null;
-        }
-        return param;
-      }),
-    );
-    console.log('Заказ успешно отправлен!');
+    await submit_order(pool, order, userId);
+    mlog('Заказ успешно отправлен!');
     res.render('newZakaz.hbs', {
       user: req.session.user,
       success: 'Заказ успешно отправлен!',
     });
-    // res.json({ message: 'Заказ успешно отправлен!' });
   } else {
     res.status(400).json({ error: 'Ошибка: userId не определен' });
   }
@@ -185,20 +154,9 @@ app.post('/submit-order', async (req, res) => {
 
 app.get('/adminzakaz', async (req, res) => {
   if (req.session.user && req.session.user.admin) {
-    const [rows] = await pool.execute('SELECT * FROM Orders');
+    const orders = await get_all_orders();
 
-    const orders = rows.map((row) => {
-      return {
-        OrderID: row.OrderID,
-        ProductName: row.ProductName,
-        Quantity: row.Quantity,
-        URL: row.URL,
-        StartDate: row.StartDate,
-        EndDate: row.EndDate,
-        Author: row.Author,
-        Status: row.Status,
-      };
-    });
+    
 
     res.render('adminZakaz', { title: 'Admin Orders', user: req.session.user, orders });
   } else {
@@ -213,7 +171,7 @@ app.post('/update-status', async (req, res) => {
 
     // Обновите статус в базе данных
     // Здесь вы бы использовали свое соединение с базой данных
-    await pool.execute('UPDATE Orders SET Status = ? WHERE OrderID = ?', [status, orderId]);
+    await update_status(status, orderId);
 
     res.redirect('/adminzakaz');
   } else {
@@ -221,51 +179,9 @@ app.post('/update-status', async (req, res) => {
   }
 });
 
-// const Order = require('');
-// app.post('/update-order-status', (req, res) => {
-//   const { OrderId, Status } = req.body;
 
-//   // Здесь производится обновление статуса заказа в базе данных
-//   // Пример кода для обновления статуса в MongoDB:
-//   Order.findByIdAndUpdate(orderId, { status: Status }, (err, doc) => {
-//       if (err) {
-//           console.error('Ошибка при обновлении статуса заказа:', err);
-//           res.status(500).send('Ошибка при обновлении статуса заказа');
-//       } else {
-//           console.log('Статус заказа успешно обновлен');
-//           res.sendStatus(200);
-//       }
-//   });
-// });
-
-// app.get('/myZakaz', async (req, res) => {
-//   if(req.session.user) {
-//     const UserID = req.session.user.id;
-
-//     const [rows] = await pool.execute('SELECT * FROM orders WHERE UserID = ?',
-//       [UserID]
-//     );
-
-//     const orders = rows.map(row => {
-//       return {
-//         OrderID: row.OrderID,
-//         ProductName: row.ProductName,
-//         Quantity: row.Quantity,
-//         URL: row.URL,
-//         StartDate: row.StartDate,
-//         EndDate: row.EndDate,
-//         Author: row.Author,
-//         Status: row.Status
-//       };
-//     });
-
-//     res.render('myZakaz.hbs', { title: 'orders', user: req.session.user, orders });
-//   } else {
-//     res.redirect('/auth');
-//   }
-// });
 
 app.listen(3000, async () => {
-  console.log('Сервер был запущен...');
+  mlog('Сервер был запущен...');
   await checkConnection();
 });
