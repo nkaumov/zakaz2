@@ -17,16 +17,21 @@ height: 100%;
 
 .navbar {
     margin-bottom: 20px;
+    color: #fff;
+    background-color: #080a0c;
+    width: 100%;
+    height: 56px;
+    line-height: 56px
   }
 
-  .toast-container {
+  /* .toast-container {
     position: fixed;
     top: 20px;
     right: 20px;
     z-index: 9999;
-  }
+  } */
   
-  .toast {
+  /* .toast {
     background-color: #333;
     color: #fff;
     padding: 10px;
@@ -34,16 +39,16 @@ height: 100%;
     border-radius: 4px;
     opacity: 0;
     animation: fadeInOut 3s ease-in-out;
-  }
+  } */
   
-  .toast.error {
+  /* .toast.error {
     background-color: #ff4444;
   }
   
   .toast.success {
     background-color: #00cc66;
   }
-  
+   */
   @keyframes fadeInOut {
     0% {
       opacity: 0;
@@ -62,4 +67,20 @@ height: 100%;
       transform: translateY(-20px);
     }
   }
-  
+
+  .centered {
+    width: 200px; /* Ширина блока */
+    margin: 0 auto; /* Центрирование по горизонтали */
+    text-align: center; /* Центрирование содержимого внутри блока */
+  }
+
+  .centered-form {
+    width: 400px; /* Ширина формы */
+    margin: 0 auto; /* Центрирование по горизонтали */
+  }
+  .button-container {
+    display: flex;
+    flex-direction: column; /* Расположение кнопок в столбец */
+    align-items: center; /* Центрирование кнопок по горизонтали */
+  }
+ 

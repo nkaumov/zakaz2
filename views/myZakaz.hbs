@@ -16,6 +16,25 @@
     }
 </style>
 
+<style>
+  .centered {
+    width: 200px; /* Ширина блока */
+    margin: 0 auto; /* Центрирование по горизонтали */
+    text-align: center; /* Центрирование содержимого внутри блока */
+  }
+</style> 
+<style>
+  .centered-form {
+    width: 400px; /* Ширина формы */
+    margin: 0 auto; /* Центрирование по горизонтали */
+  }
+  .button-container {
+    display: flex;
+    flex-direction: column; /* Расположение кнопок в столбец */
+    align-items: center; /* Центрирование кнопок по горизонтали */
+  }
+</style>
+
 <section class="h-100 gradient-form" style="background-color: #ffffff;">
     <div class="d-flex justify-content-center align-items-center h-100">
         <div class="col-xl-12">
@@ -24,11 +43,12 @@
                     <div class="col-lg-6">
                         <div class="card-body p-md-5 mx-md-4">
 
-                <div class="text-center">
-                  <img src="https://prosto.education/wp-content/uploads/2023/04/24.png"
-                    style="width: 250px;" alt="logo">
-                  <h4 class="mt-1 mb-5 pb-1">Х</h4>
-                </div>
+                <div class="centered">
+  <div class="text">
+    <img src="https://prosto.education/wp-content/uploads/2023/04/24.png" style="width: 185px; flex-wrap: wrap;" alt="logo">
+    <h4 class="mt-1 mb-5 pb-1">Х</h4>
+  </div>
+</div>
 
                <ul id="orderList" style="list-style-type: none;">
     {{#if orders.length}}

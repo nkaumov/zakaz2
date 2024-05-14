@@ -44,7 +44,7 @@
     {{!-- {{/if}} --}}
 
 
-    <header class="navbar navbar-dark bg-dark">
+    {{!-- <header class="navbar navbar-dark bg-dark">
   <div class="container">
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
@@ -59,5 +59,48 @@
       </div>
     </div>
   
-</header>
+</header> --}}
 
+<style>
+  .nav-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-links {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-links li {
+    margin-right: 1rem;
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+  }
+
+  .user-info span,
+  .user-info a {
+    margin-left: 0.5rem;
+  }
+</style>
+
+<nav>
+  <div class="nav-wrapper black">
+    
+    <ul class="nav-links">
+      <li><a href="#" class="nav-link px-2 text-white">ZAKAZ2</a></li>
+      <li><a href="/myzakaz" class="nav-link px-2 text-white">Мои заказы</a></li>
+      <li><a href="/newzakaz" class="nav-link px-2 text-white">Добавить заказ</a></li>
+    </ul>
+    <div class="user-info">
+      <span class="btn btn-outline-light">{{user.username}}</span>
+      <a href="/logout" class="btn btn-outline-light">Выйти</a>
+    </div>
+  </div>
+</nav>

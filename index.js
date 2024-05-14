@@ -78,7 +78,13 @@ app.post('/myzakaz', async (req, res) => {
     if (password === user.password) {
       req.session.userId = user.id; // сохраняем userId в сессии
       req.session.user = user; // сохраняем всего пользователя в сессии
-      res.render('newZakaz.hbs', { user: user });
+
+      // Проверяем роль пользователя и рендерим соответствующую страницу
+      if (user.role === 1) {
+        res.render('adminZakaz.hbs', { user: user });
+      } else {
+        res.render('newZakaz.hbs', { user: user });
+      }
     } else {
       res.send('Неверный пароль');
     }
@@ -141,16 +147,20 @@ app.post('/submit-order', async (req, res) => {
   const userId = req.session.userId;
 
   if (userId) {
-    await submit_order(pool, order, userId);
-    mlog('Заказ успешно отправлен!');
-    res.render('newZakaz.hbs', {
-      user: req.session.user,
-      success: 'Заказ успешно отправлен!',
-    });
+    try {
+      await submit_order(pool, order, userId);
+      mlog('Заказ успешно отправлен!');
+      res.send('ok')
+    } catch (error) {
+      res.status(500).json({ status: 'error', message: 'Ошибка при отправке заказа' }); // Отправьте статус ошибки и сообщение об ошибке в ответе
+    }
   } else {
-    res.status(400).json({ error: 'Ошибка: userId не определен' });
+    res.status(400).json({ status: 'error', message: 'Ошибка: userId не определен' }); // Отправьте статус ошибки и сообщение об ошибке в ответе
   }
 });
+
+
+
 
 app.get('/adminzakaz', async (req, res) => {
   if (req.session.user && req.session.user.admin) {
