@@ -105,8 +105,8 @@ export async function get_zakaz(userId) {
 
   export async function get_filtered_orders(status) {
     const query = status === ' ' 
-      ? 'SELECT * FROM Orders' 
-      : 'SELECT * FROM Orders WHERE Status = ?';
+      ? 'SELECT * FROM Orders ORDER BY OrderID DESC' 
+      : 'SELECT * FROM Orders WHERE Status = ? ORDER BY OrderID DESC';
     const params = status === ' ' ? [] : [status];
     const [rows] = await pool.query(query, params);
   
@@ -122,7 +122,9 @@ export async function get_zakaz(userId) {
         Status: row.Status,
       };
     });
-  }
+}
+
+
   
 
 
