@@ -41,7 +41,7 @@ export async function insert_user(username, email, password){
 // }
 
 export async function get_zakaz(userId) {
-    const query = 'SELECT * FROM orders WHERE UserID = ?';
+    const query = 'SELECT * FROM orders WHERE UserID = ? ORDER BY OrderID DESC';
     const [rows] = await pool.query(query, [userId]);
     return rows;
   }
