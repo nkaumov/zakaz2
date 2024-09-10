@@ -102,4 +102,28 @@ export async function get_zakaz(userId) {
  
 
 
+
+  export async function get_filtered_orders(status) {
+    const query = status === ' ' 
+      ? 'SELECT * FROM Orders' 
+      : 'SELECT * FROM Orders WHERE Status = ?';
+    const params = status === ' ' ? [] : [status];
+    const [rows] = await pool.query(query, params);
+  
+    return rows.map((row) => {
+      return {
+        OrderID: row.OrderID,
+        ProductName: row.ProductName,
+        Quantity: row.Quantity,
+        URL: row.URL,
+        StartDate: row.StartDate,
+        EndDate: row.EndDate,
+        Author: row.Author,
+        Status: row.Status,
+      };
+    });
+  }
+  
+
+
   export default pool;
